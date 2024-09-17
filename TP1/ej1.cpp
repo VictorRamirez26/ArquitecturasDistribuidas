@@ -35,13 +35,24 @@ int main(){
 	
 	long int x = 1500000;
 	long int n_taylor = 10000000;
+	
+	cout << "Comienzo de taylor sin hilos: " << endl;
+	auto start_time_sin_hilos = chrono::high_resolution_clock::now();
 	long double result = taylor_sin_hilos(x , n_taylor);
-	cout<<"Result sin hilos: "<< setprecision(15) << result <<endl;
+	auto end_time_sin_hilos = chrono::high_resolution_clock::now();
+	chrono::duration<double> duracion_sin_hilos = end_time_sin_hilos - start_time_sin_hilos;
+	cout<<"Resultado sin hilos: "<< setprecision(15) << result <<endl;
+	cout << "Tiempo de ejecucion sin hilos: " << duracion_sin_hilos.count() << " segundos" << endl;
+	cout << "*******************************************************" << endl;
+	
+	
 	
 	int n_threads = 4;
 	long int part = n_taylor/n_threads; // particion
 	long int start;
 	long int end;
+	
+	auto start_time = chrono::high_resolution_clock::now();
 	thread array_de_hilos[n_threads];
 	
 	for (int i=0 ; i<n_threads ; i++){
@@ -61,6 +72,11 @@ int main(){
 		}
 	}
 	
-	cout<<"Resultado con hilos: "<<2*sum_total<<endl;
+	auto end_time = chrono::high_resolution_clock::now();
+	chrono::duration<double> duracion = end_time - start_time;
+	cout << "Resultado con hilos: " << setprecision(15) << 2 * sum_total << endl;
+	cout << "Tiempo de ejecucion con hilos: " << duracion.count() << " segundos" << endl;
+	cout << "*******************************************************" << endl;
+	
 }
 
